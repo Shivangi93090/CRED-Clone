@@ -4,40 +4,47 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
-//for swagger documentation
-const swaggerui = require("swagger-ui-express");
+// Swagger setup
+const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
 const swaggerDocument = YAML.load("./swagger.yaml");
-app.use("/api-docs", swaggerui.serve, swaggerui.setup(swaggerDocument));
+
+// Importing routes
+const cardRoutes = require('./routes/card.routes');
+const userRoutes = require('./routes/user.routes');
 
 const ErrorHandler = require("./middleware/errorHandler");
 
+// Middleware setup
 app.use(cors());
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("tiny"));
 app.use(cookieParser());
 
-// importing routes
-const userRoute = require("./routes/user");
-const cardRoute = require("./routes/card");
-// const rewardRoute = require("./routes/reward");
+// Swagger documentation route
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Routes middlewares
-app.use("/api/user", userRoute);
-app.use("/api/cards", cardRoute);
-// app.use("/api/rewards", rewardRoute);
+app.use("/api/users", userRoutes); // Consolidated user route
+app.use("/api/cards", cardRoutes); // Consolidated card route
 
+// Root route
 app.use("/", (req, res) => {
   res.send("Welcome to the backend of Cred Clone");
 });
 
+// Error handling middleware
 app.use(ErrorHandler);
 
 // Wildcard route to handle any other requests
 app.all("*", (req, res) => {
   res.status(404).send("Page not found");
+});
+
+// Starting the server
+app.listen(3000, () => {
+  console.log('Server is running on port 5000');
 });
 
 module.exports = app;
