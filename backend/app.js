@@ -42,9 +42,7 @@ app.all("*", (req, res) => {
   res.status(404).send("Page not found");
 });
 
-// Starting the server
-app.listen(3000, () => {
-  console.log('Server is running on port 5000');
-});
+// Starting the servery
+
 
 module.exports = app;
