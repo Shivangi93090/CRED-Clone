@@ -10,8 +10,8 @@ const YAML = require("yamljs");
 const swaggerDocument = YAML.load("./swagger.yaml");
 
 // Importing routes
-const cardRoutes = require('./routes/card.routes');
-const userRoutes = require('./routes/user.routes');
+const cardRoutes = require('./routes/card');
+const userRoutes = require('./routes/user');
 
 const ErrorHandler = require("./middleware/errorHandler");
 
@@ -26,7 +26,7 @@ app.use(cookieParser());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Routes middlewares
-app.use("/api/users", userRoutes); // Consolidated user route
+app.use("/api/user", userRoutes); // Consolidated user route
 app.use("/api/cards", cardRoutes); // Consolidated card route
 
 // Root route
