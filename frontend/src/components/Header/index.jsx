@@ -17,6 +17,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const { userInfo, profileInfo } = user;
+  // const coins = profileInfo?.profile?.coins;
 
   const logoutHandler = () => {
     dispatch(logout());
