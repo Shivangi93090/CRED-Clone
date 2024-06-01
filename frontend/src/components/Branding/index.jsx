@@ -11,7 +11,6 @@ const Branding = () => {
       <p
         className="container"
         style={{
-          fontFamily: "Gilroy-Bold",
           fontSize: "1.4vw",
           letterSpacing: "-0.2px",
           lineHeight: "2vw",

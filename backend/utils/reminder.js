@@ -8,7 +8,6 @@ const User = require("../model/user");
 const getProfiles = async () => {
   const data = [];
   const profiles = await Profile.find({ reminder: true });
-  //one profile can have many profilecard
   for (const profile of profiles) {
     const profileCards = await ProfileCard.find({ profileId: profile._id });
     for (const profileCard of profileCards) {
