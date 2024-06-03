@@ -40,6 +40,49 @@ const reminder = async () => {
   const date1 = todayDate.getDate();
   const date2 = afterFiveDaysDate.getDate();
 
+  // const transporter = nodemailer.createTransport({
+  //   host: process.env.SMTP_HOST,
+  //   port: process.env.SMTP_PORT,
+  //   secureConnection: false,
+  //   auth: {
+  //     user: process.env.SMTP_USER,
+  //     pass: process.env.SMTP_PASS,
+  //   },
+  //   tls: {
+  //     minDHSize: 512,
+  //     minVersion: "TLSv1",
+  //     maxVersion: "TLSv1.3",
+  //     ciphers: "ALL",
+  //   },
+  //   logger: true,
+  //   debug: true,
+  // });
+
+  // cron.schedule(
+  //   "30 * * * * *",
+  //   async function () {
+  //     console.log("Inside cron job");
+  //     console.log(remData);
+  //     for (const data of remData) {
+  //       const mailOptions = {
+  //         from: "no-reply@example.com",
+  //         to: data.email,
+  //         subject: "Pay your outstanding amount",
+  //         text: `Hi cred user, You have an outstanding amount ${data.outstandingAmount} remaining to pay against card - ${data.cardNumber}.\nPay before the end of this month to earn rewards.`,
+  //       };
+  //       try {
+  //         await transporter.sendMail(mailOptions);
+  //       } catch (error) {
+  //         console.error("Error in cron job:", error);
+  //       }
+  //     }
+  //   },
+  //   {
+  //     scheduled: true,
+  //     timezone: "Asia/Kolkata",
+  //   }
+  // );
+
   if (date2 < date1) {
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
@@ -60,7 +103,7 @@ const reminder = async () => {
     });
 
     cron.schedule(
-      "0 0 8 27 * *",
+      `0 0 8 ${date1} * *`,
       async function () {
         for (const data of remData) {
           const mailOptions = {
