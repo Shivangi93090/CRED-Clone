@@ -36,7 +36,11 @@ const Header = () => {
         <Container>
           <LinkContainer to="/">
             <Navbar.Brand>
-              <Image style={{ width: "40%", height: "auto" }} src={logo} />
+              <Image
+                style={{ width: "40%", height: "auto" }}
+                src={logo}
+                alt="cred_logo"
+              />
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
