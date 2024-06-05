@@ -5,6 +5,7 @@ const Profile = require("../model/profile");
 const ProfileCard = require("../model/profileCard");
 const Transaction = require("../model/transaction");
 const CustomError = require("../utils/customError");
+const bcrypt = require("bcryptjs");
 
 const daysInMonth = (month, year) => {
   const temp = new Date(year, month + 1, 0);
@@ -13,8 +14,6 @@ const daysInMonth = (month, year) => {
 
 exports.addCard = bigPromise(async (req, res, next) => {
   try {
-    await Card.validate(req.body);
-
     const {
       authCode,
       cardOwnerName,
@@ -23,6 +22,11 @@ exports.addCard = bigPromise(async (req, res, next) => {
       expiryYear,
       cvv,
     } = req.body;
+
+    if (!expiryMonth || !expiryYear || !cvv) {
+      res.statusCode = 422;
+      throw new Error("All Details should be provided");
+    }
 
     const existingCard = await Card.findOne({ cardNumber });
 
@@ -47,13 +51,19 @@ exports.addCard = bigPromise(async (req, res, next) => {
           userId: req.user._id,
         });
 
+        console.log(`${expiryMonth}|${expiryYear}|${cvv}`);
+        const hash = await bcrypt.hash(
+          `${expiryMonth}|${expiryYear}|${cvv}`,
+          10
+        );
+
         const card = await Card.create({
           cardOwnerName: cardOwnerName.toUpperCase(),
           cardNumber,
-          expiryMonth,
-          expiryYear,
-          cvv,
+          hashedDetails: hash,
         });
+
+        card.hashedDetails = false;
 
         await ProfileCard.create({
           profileId: profileAssociated._id,
@@ -78,11 +88,15 @@ exports.addCard = bigPromise(async (req, res, next) => {
           throw new Error("Card is Already Added");
         } else {
           if (authCode === profile.authCode) {
+            const isMatch = await existingCard.compareCardDetail(
+              expiryMonth,
+              expiryYear,
+              cvv
+            );
+            console.log(isMatch);
             if (
-              existingCard.cardOwnerName === cardOwnerName.toUpperCase() &&
-              existingCard.expiryMonth === expiryMonth &&
-              existingCard.expiryYear === expiryYear &&
-              existingCard.cvv === cvv
+              isMatch &&
+              existingCard.cardOwnerName === cardOwnerName.toUpperCase()
             ) {
               const currrentProfile = await Profile.findOne({
                 userId: req.user._id,

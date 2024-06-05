@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const cardSchema = new mongoose.Schema({
   cardOwnerName: {
@@ -14,24 +15,31 @@ const cardSchema = new mongoose.Schema({
     type: Number,
     default: 0.0,
   },
-  expiryMonth: {
-    type: Number,
-    required: [true, "Expiry month is required"],
-    min: [1, "Expiry month must be between 1 and 12"],
-    max: [12, "Expiry month must be between 1 and 12"],
-  },
-  expiryYear: {
-    type: Number,
-    required: [true, "Expiry year is required"],
-    min: [2024, "Expiry year must be from 2024 onwards"],
-    max: [3000, "Expiry year must be before 3000"],
-  },
-  cvv: {
-    type: Number,
-    required: [true, "CVV is required"],
-    min: [100, "CVV must be a 3-digit number"],
-    max: [9999, "CVV must be a 3-digit number"],
+  hashedDetails: {
+    type: String,
+    select: false,
   },
 });
+
+cardSchema.methods.createHash = async function (expiryMonth, expiryYear, cvv) {
+  console.log(`${expiryMonth}|${expiryYear}|${cvv}`);
+  return await bcrypt.hash(`${expiryMonth}|${expiryYear}|${cvv}`, 10);
+};
+
+cardSchema.methods.compareCardDetail = async function (
+  expiryMonth,
+  expiryYear,
+  cvv
+) {
+  const card = await this.model("Card")
+    .findById(this._id)
+    .select("+hashedDetails");
+  console.log(`${expiryMonth}|${expiryYear}|${cvv}`);
+
+  return await bcrypt.compare(
+    `${expiryMonth}|${expiryYear}|${cvv}`,
+    card.hashedDetails
+  );
+};
 
 module.exports = mongoose.model("Card", cardSchema);
