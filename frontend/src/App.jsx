@@ -11,8 +11,7 @@ import AddCardScreen from "./screens/AddCardScreen";
 import CardScreen from "./screens/CardScreen";
 import StatementScreen from "./screens/StatementScreen";
 import SmartStatementScreen from "./screens/SmartStatementScreen";
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
