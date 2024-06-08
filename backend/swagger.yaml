@@ -8,6 +8,8 @@ servers:
 paths:
   /api/user/signup:
     post:
+      tags:
+        - User
       summary: Register a new user
       requestBody:
         required: true
@@ -20,6 +22,8 @@ paths:
           description: User registered successfully
   /api/user/login:
     post:
+      tags:
+        - User
       summary: Login a user
       requestBody:
         required: true
@@ -32,29 +36,39 @@ paths:
           description: User logged in successfully
   /api/user/logout:
     get:
+      tags:
+        - User
       summary: Logout a user
       responses:
         "200":
           description: User logged out successfully
   /api/user/profile:
     get:
+      tags:
+        - User
       summary: Get user profile
       responses:
         "200":
           description: User profile data
     patch:
+      tags:
+        - User
       summary: Update user profile
       responses:
         "200":
           description: User profile updated successfully
   /api/user/authCode:
     get:
+      tags:
+        - User
       summary: Update user authentication code
       responses:
         "200":
           description: Authentication code updated
   /api/cards:
     post:
+      tags:
+        - Card
       summary: Add a new card
       requestBody:
         required: true
@@ -66,12 +80,16 @@ paths:
         "200":
           description: Card added successfully
     get:
+      tags:
+        - Card
       summary: Get all cards
       responses:
         "200":
           description: List of all cards
   /api/cards/{card_id}:
     get:
+      tags:
+        - Card
       summary: Get card by ID
       parameters:
         - in: path
@@ -85,6 +103,8 @@ paths:
           description: Card details
   /api/cards/{card_id}/pay:
     post:
+      tags:
+        - Card
       summary: Pay bill for a card
       parameters:
         - in: path
@@ -98,6 +118,8 @@ paths:
           description: Bill paid successfully
   /api/cards/{card_id}/statements:
     get:
+      tags:
+        - Card
       summary: Get all statements for a card
       parameters:
         - in: path
@@ -111,6 +133,8 @@ paths:
           description: List of all statements
   /api/cards/{card_id}/statements/{year}/{month}:
     get:
+      tags:
+        - Card
       summary: Get statements for a specific year and month
       parameters:
         - in: path
@@ -136,6 +160,8 @@ paths:
           description: Statements for the specified year and month
   /api/cards/{card_id}/smartStatement:
     get:
+      tags:
+        - Card
       summary: Get smart statement data for a card
       parameters:
         - in: path
@@ -149,6 +175,8 @@ paths:
           description: Smart statement data
   /api/cards/{card_id}/smartStatement/{year}/{month}:
     get:
+      tags:
+        - Card
       summary: Get smart statement data for a specific year and month
       parameters:
         - in: path
