@@ -183,7 +183,7 @@ const ProfileScreen = () => {
                   }
                 >
                   <Button
-                    id = "authButton"
+                    id="authButton"
                     className="btn-sm"
                     onClick={() => getAuthCode()}
                     disabled={!readOnly}
@@ -233,7 +233,11 @@ const ProfileScreen = () => {
                   }) => (
                     <Form onSubmit={handleSubmit} style={{ padding: "20px" }}>
                       <Form.Group as={Row} controlId="email" className="mt-3">
-                        <Form.Label column sm="3" className="form-label">
+                        <Form.Label
+                          column
+                          sm="3"
+                          className="form-label font-weight-bold"
+                        >
                           Email
                         </Form.Label>
                         <Col sm="9">
@@ -247,6 +251,7 @@ const ProfileScreen = () => {
                             isInvalid={!!errors.email}
                             // readOnly
                             disabled
+                            style={{ border: "1px solid black" }}
                           />
                           {errors.email && touched.email && (
                             <Form.Control.Feedback type="invalid">
@@ -256,7 +261,11 @@ const ProfileScreen = () => {
                         </Col>
                       </Form.Group>
                       <Form.Group as={Row} controlId="name" className="mt-3">
-                        <Form.Label column sm="3" className="form-label">
+                        <Form.Label
+                          column
+                          sm="3"
+                          className="form-label font-weight-bold"
+                        >
                           Name
                         </Form.Label>
                         <Col sm="9">
@@ -270,6 +279,7 @@ const ProfileScreen = () => {
                             isInvalid={!!errors.name}
                             // readOnly={readOnly}
                             disabled={readOnly}
+                            style={{ border: "1px solid black" }}
                           />
                           {errors.name && touched.name && (
                             <Form.Control.Feedback type="invalid">
@@ -283,7 +293,11 @@ const ProfileScreen = () => {
                         controlId="authCode"
                         className="mt-3"
                       >
-                        <Form.Label column sm="3" className="form-label">
+                        <Form.Label
+                          column
+                          sm="3"
+                          className="form-label font-weight-bold"
+                        >
                           Auth Code
                         </Form.Label>
                         <Col sm="9">
@@ -299,6 +313,7 @@ const ProfileScreen = () => {
                               isInvalid={!!errors.authCode}
                               // readOnly={readOnly}
                               disabled={readOnly}
+                              style={{ border: "1px solid black" }}
                             />
                             {/* <InputGroup.Append>
                               <InputGroup.Text>
@@ -379,7 +394,7 @@ const ProfileScreen = () => {
                         <td>
                           <LinkContainer to={`/cards/${card._id}`}>
                             <Button
-                              id ='detail'
+                              id="detail"
                               className="btn-sm btn btn-outline-info"
                               variant="light"
                             >
